@@ -14,6 +14,9 @@ import (
 type Server struct {
 	Server *grpc.Server
 	opts   serverOptions
+	Conn   *grpc.ClientConn
+	Ctx    context.Context
+	Mux    *runtime.ServeMux
 }
 
 func NewServer(opt ...ServerOption) *Server {
@@ -23,29 +26,27 @@ func NewServer(opt ...ServerOption) *Server {
 		o.apply(&opts)
 	}
 	srv.Server = grpc.NewServer()
+	srv.Mux = runtime.NewServeMux()
+	srv.Ctx = context.Background()
 	srv.opts = opts
 	return &srv
 }
 
 func (s *Server) Init() {
+
 	listener, err := net.Listen("tcp", fmt.Sprintf(":%s", s.opts.grpcPort))
 	if err != nil {
-		fmt.Println("Error creating listener:", err)
-		return
+		log.Fatalf("Error creating listener: %v", err)
 	}
 
 	go func() {
-		log.Printf("starting gRPC server at :%s", s.opts.grpcPort)
 		if err := s.Server.Serve(listener); err != nil {
 			log.Fatal(err)
 		}
 	}()
-}
 
-func (s *Server) RunGwGracefully() {
-	ctx := context.Background()
 	conn, err := grpc.DialContext(
-		ctx,
+		s.Ctx,
 		fmt.Sprintf("0.0.0.0:%s", s.opts.grpcPort),
 		grpc.WithBlock(),
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
@@ -54,25 +55,19 @@ func (s *Server) RunGwGracefully() {
 	if err != nil {
 		log.Fatalln("Failed to dial server:", err)
 	}
-
-	gwmux := runtime.NewServeMux()
-	for _, handler := range s.opts.handlers {
-		err = handler(ctx, gwmux, conn)
-		if err != nil {
-			log.Fatal(err)
-		}
-	}
-
+	s.Conn = conn
 	gwServer := &http.Server{
 		Addr:    fmt.Sprintf(":%s", s.opts.restPort),
-		Handler: gwmux,
+		Handler: s.Mux,
 	}
 
 	log.Printf("starting rest gateway server at :%s", s.opts.restPort)
-	if err = gwServer.ListenAndServe(); err != nil {
-		log.Fatal(err)
+	log.Printf("starting gRPC server at :%s", s.opts.grpcPort)
+
+	if err := gwServer.ListenAndServe(); err != nil {
+		log.Fatalf("failed starting rest gateway: %v", err)
 	}
+
 	s.Server.GracefulStop()
 	gwServer.Close()
-
 }
