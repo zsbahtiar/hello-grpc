@@ -6,8 +6,10 @@ github.com/google/go-cmp v0.5.5/go.mod h1:v8dTdLbMG2kIc/vJvl+f65V22dbkXbowE6jgT/
 github.com/google/go-cmp v0.5.9 h1:O2Tfq5qg4qc4AmwVlvv0oLiVAGB7enBSJ2x2DqQFi38=
 github.com/grpc-ecosystem/grpc-gateway/v2 v2.15.2 h1:gDLXvp5S9izjldquuoAhDzccbskOL6tDC5jMSyx3zxE=
 github.com/grpc-ecosystem/grpc-gateway/v2 v2.15.2/go.mod h1:7pdNwVWBBHGiCxa9lAszqCJMbfTISJ7oMftp8+UGV08=
-github.com/zsbahtiar/hello-grpc/common v0.0.0-20230314175812-359f3310fbf7 h1:7d6/rMyjAwL92NidTjYuUVTmURDnQaU8mprl/6ZtQvE=
-github.com/zsbahtiar/hello-grpc/common v0.0.0-20230314175812-359f3310fbf7/go.mod h1:hexmA+Shzru0iFs55Ue9UAg3620qivZCRUiadewOdPI=
+github.com/zsbahtiar/hello-grpc/common v0.0.0-20230315053322-1b40b93bb443 h1:ozYX+rITG6DqBBZv4xb76Rv5V0Np/mQw28/UJw8fcX8=
+github.com/zsbahtiar/hello-grpc/common v0.0.0-20230315053322-1b40b93bb443/go.mod h1:hexmA+Shzru0iFs55Ue9UAg3620qivZCRUiadewOdPI=
+github.com/zsbahtiar/hello-grpc/common v0.0.0-20230315053448-7bb7241592b8 h1:e4SbD1KiUUTHqtAkcUxkMRHph5jipAk9XZvl//LvNw4=
+github.com/zsbahtiar/hello-grpc/common v0.0.0-20230315053448-7bb7241592b8/go.mod h1:hexmA+Shzru0iFs55Ue9UAg3620qivZCRUiadewOdPI=
 golang.org/x/net v0.7.0 h1:rJrUqqhjsgNp7KqAIc25s9pZnjU7TUcSY7HcVZjdn1g=
 golang.org/x/net v0.7.0/go.mod h1:2Tu9+aMcznHK/AK1HMvgo6xiTLG5rD5rZLDS+rp2Bjs=
 golang.org/x/sys v0.5.0 h1:MUK/U/4lj1t1oPg0HfuXDN/Z1wv31ZJ/YcPiGccS4DU=

@@ -14,11 +14,9 @@ func main() {
 	srv := server.NewServer(
 		server.RestPort("8080"),
 		server.GRPCPort("9090"),
-		server.RegisterHandler(pbAuth.RegisterAuthHandler),
 	)
 
-	pbAuth.RegisterAuthServer(srv.Server, authHandler)
+	pbAuth.RegisterService(srv, authHandler)
 	srv.Init()
-	srv.RunGwGracefully()
 
 }
