@@ -1,11 +1,5 @@
 package server
 
-import (
-	"context"
-	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
-	"google.golang.org/grpc"
-)
-
 type funcServerOption struct {
 	f func(*serverOptions)
 }
@@ -13,7 +7,6 @@ type funcServerOption struct {
 type serverOptions struct {
 	grpcPort string
 	restPort string
-	handlers []func(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error
 }
 
 type ServerOption interface {
@@ -40,10 +33,4 @@ func RestPort(port string) ServerOption {
 
 func (fdo *funcServerOption) apply(do *serverOptions) {
 	fdo.f(do)
-}
-
-func RegisterHandler(handler func(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error) ServerOption {
-	return newFuncServerOption(func(o *serverOptions) {
-		o.handlers = append(o.handlers, handler)
-	})
 }
